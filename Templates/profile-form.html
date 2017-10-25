@@ -1,0 +1,12 @@
+{% block content %}
+	<h1>Simple WTF-Form</h1>
+	<form method="POST" action="http://localhost:500/Profile">
+		{{ form.hidden_tag() }}
+		{% for message in get_flashed_messages() %}
+		{{ message }}
+		{% endfor %}
+		<p>{{ form.username.label }}{{ form.username() }}</p>
+		<p>{{ form.description.label }}{{ form.description() }}</p>
+		{{ form.submit() }}
+	</form>
+	{% endblock %}
