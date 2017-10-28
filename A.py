@@ -1,43 +1,74 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, flash
 from flask import request
-from wtforms import StringField, IntegerField, SubmitField
+from flask_wtf import FlaskForm
+from wtforms import StringField, fields, RadioField, IntegerField, SubmitField
 from wtforms.validators import Required
 import requests
 import json
 
 app = Flask(__name__)
-app.debug = True 
+app.config['SECRET_KEY'] = 'password'
+app.debug = True
 
 # At least 3 different routes
-	#At least one route should employ set_cookie and use the 
-	#make_response function so a cookie is set in that request
 
 class ProfileForm(FlaskForm):
 	username = StringField('Enter a username:', validators=[Required()])
-	description = fields.RadioField('What best describes you?', choices=['Parent on-the go', 'Student on a budget', 'Workaholic'])
+	choice = RadioField('Are you looking for recipes or food videos?', choices=[('Recipes!','Recipes!'), ('Videos!', 'Videos!')])
 	submit = SubmitField('Submit')
 
-@app.route('/profile')
+@app.route('/profile', methods = ['GET', 'POST'])
 def profile_form():
 	simpleForm = ProfileForm()
 	return render_template('profile-form.html', form=simpleForm)
 
-@app.route('/Profile', methods = ['GET', 'POST'])
+@app.route('/result', methods = ['GET', 'POST'])
 def profile():
 	form = ProfileForm(request.form)
 	if request.method == 'POST' and form.validate_on_submit():
 		username = form.username.data
-		description = form.description.data
-		return "Welcome {0}! I'm RecipeGenie and I'm here to help with meals that work around your schedule!".format(username)
+		choice = form.choice.data
+		result = request.args
+		base_url = "http://www.recipepuppy.com/api/"
+		params = {}
+		params['recipe'] = 'title'
+		response = requests.get(base_url, params)
+		data = json.loads(response.text)
+		if choice == "Recipes!":
+			return render_template('recipe_links.html', results = data["results"], username = username)
+		if choice == "Videos!":
+			return render_template('videos.html', username = username)
 	flash('All fields are required!')
-	return redirect(url_for('index'))
+	#return redirect(url_for('profile'))
 
-#At least 1 written form, written with WTForms, with correct/reasonable
-#action and method
-	#data should be entered into this and submitted 
-	#submitting data via the form should cause a visible result 
-	# manipulating it in a way that's not just printing it out 
+#@app.route('/result/<ingredient>')
+#def spec_artist(ingredient):
+#	result = request.args
+#	base_url = "https://recipepuppy.com/search"
+#	params = {} 
+#	params['recipe']='title'
+#	params['name'] = ingredient
+#	response = requests.get(base_url, params)
+#	data = json.loads(response.text)
+#	return render_template('specific_ingredient.html, results = data['results'])
 
+#At least one route should employ set_cookie and use the 
+#make_response function so a cookie is set in that request 
+
+@app.route('/cookie')
+def set_cookie(self, response): 
+	redirect_to_profile = redirect('/profile')
+	response = current_app.make_response(redirect_to_profile)
+	response.set_cookie('cookie_name',value='values')
+	return response
+
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+	return render_template('500.html'), 500
 #At least 2 dynamic links appearing inside template files (links to 
 	#other pages within the application) that send data through the URL 
 	#(Like itunes data, similar to data on Solange and Kendrick Lamar in HW3)
@@ -56,10 +87,6 @@ def profile():
 	# the other can be to handle any type of error you want, but it must 
 	#be a genuinely possible error code (like 400 or 500, more in section materials)
 
-	#NOT REQUIRED BUT USEFUL:
-		#redirects
-		#the url_for function
-		#template extensions
 
 
 
@@ -68,7 +95,8 @@ def profile():
 
 
 if __name__ == '__main__':
-	app.run(debug = true)
+	app.run(debug = True)
+#	app.run
 
 
 

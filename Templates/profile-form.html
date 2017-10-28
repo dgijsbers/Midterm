@@ -1,12 +1,24 @@
+<html>
+	<head>
+		<title>Welcome</title>
+		<style>
+		body{color:blue;font-size:16px;font-family:sans-serif}
+		</style>
+	</head>
+	<body>
+
 {% block content %}
-	<h1>Simple WTF-Form</h1>
-	<form method="POST" action="http://localhost:500/Profile">
+	<h1>Welcome to RecipeGuide! Let's set up your profile.</h1>
+	<form method="POST" action="http://localhost:5000/result">
 		{{ form.hidden_tag() }}
 		{% for message in get_flashed_messages() %}
 		{{ message }}
 		{% endfor %}
 		<p>{{ form.username.label }}{{ form.username() }}</p>
-		<p>{{ form.description.label }}{{ form.description() }}</p>
+		<p>{{ form.choice.label }}{{ form.choice() }}</p>
 		{{ form.submit() }}
 	</form>
 	{% endblock %}
+
+	</body>
+	</html>

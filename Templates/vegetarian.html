@@ -1,0 +1,14 @@
+<html>
+<head>
+	
+</head>
+<body>
+	Welcome {{ username }}! Check out your vegetarian recipe ideas!
+	<h2><img src = "/static/chef.jpeg"></h2>
+<ul>
+	{% for item in results %}
+	<li><a href=  {{ item["href"] }} > {{ item["title"] }}</a>
+	{% endfor %}
+</ul>
+</body>
+</html>
