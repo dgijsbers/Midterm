@@ -50,8 +50,9 @@ def spec_artist(ingredients):
 	params['ingredients'] = ingredients
 	response = requests.get(base_url, params)
 	data = json.loads(response.text)
-	print(data)
-#	return render_template('specific_ingredient.html, results = data['results'])
+	#print(params)
+
+	return render_template('more.html', results = data['results'])
 
 #At least one route should employ set_cookie and use the 
 #make_response function so a cookie is set in that request 

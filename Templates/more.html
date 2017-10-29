@@ -1,0 +1,8 @@
+<h1>Here's a few recipes with {{ results["ingredients"] }}...</h1>
+
+<ul>
+{% for item in results["ingredients"] %}
+	<li>{{ item["title"] }}</li>
+{% endfor %}
+</ul>
+
