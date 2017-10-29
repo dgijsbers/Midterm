@@ -8,7 +8,7 @@ import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'password'
-app.debug = True
+#app.debug = True
 
 # At least 3 different routes
 
@@ -97,8 +97,8 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-	app.run(debug = True)
-#	app.run
+#	app.run(debug = True)
+	app.run
 
 
 
