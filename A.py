@@ -41,15 +41,16 @@ def profile():
 	flash('All fields are required!')
 	#return redirect(url_for('profile'))
 
-#@app.route('/result/<ingredient>')
-#def spec_artist(ingredient):
-#	result = request.args
-#	base_url = "https://recipepuppy.com/search"
-#	params = {} 
-#	params['recipe']='title'
-#	params['name'] = ingredient
-#	response = requests.get(base_url, params)
-#	data = json.loads(response.text)
+@app.route('/result/<ingredients>', methods = ['GET', 'POST'])
+def spec_artist(ingredients):
+	result = request.args
+	base_url = "https://recipepuppy.com/api/"
+	params = {} 
+	params['recipe']='title'
+	params['ingredients'] = ingredients
+	response = requests.get(base_url, params)
+	data = json.loads(response.text)
+	print(data)
 #	return render_template('specific_ingredient.html, results = data['results'])
 
 #At least one route should employ set_cookie and use the 

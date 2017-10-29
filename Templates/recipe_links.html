@@ -5,11 +5,14 @@
 <body>
 	Welcome <b>{{ username }}</b>! Check out your new recipe ideas!
 	<h2><img src = "/static/chef.jpeg"></h2>
+
 <ul>
 	{% for item in results %}
-		{% if item["title"] = Hot Spiced Cider %}
-		<b>item["title"]</b>
+		{% if title in item %}
+			{% if title["Hot Spiced Cider"] %} <b>{{ "Hot Spiced Cider" }}</b>
+			{% endif %}
 		{% endif %}
+	
 	<li><a href=  {{ item["href"] }} > {{ item["title"] }}</a>
 	{% endfor %}
 </ul>
