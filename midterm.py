@@ -5,10 +5,15 @@ from wtforms import StringField, fields, RadioField, IntegerField, SubmitField
 from wtforms.validators import Required
 import requests
 import json
+from flask_script import Manager, Shell
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'password'
+app.config['HEROKU_ON'] = os.environ.get('HEROKU')
+
 #app.debug = True
+def make_shell_context():
+    return dict(app=app)
 
 # At least 3 different routes
 
