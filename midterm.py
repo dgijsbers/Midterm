@@ -6,6 +6,7 @@ from wtforms.validators import Required
 import requests
 import json
 from flask_script import Manager, Shell
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'password'
