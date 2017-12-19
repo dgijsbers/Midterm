@@ -9,7 +9,7 @@
 
 {% block content %}
 	<h1>Welcome to RecipeGuide! Let's set up your profile.</h1>
-	<form method="POST" action="http://localhost:5000/result">
+	<form method="POST" action="/result">
 		{{ form.hidden_tag() }}
 		{% for message in get_flashed_messages() %}
 		{{ message }}
